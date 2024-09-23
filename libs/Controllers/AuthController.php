@@ -45,6 +45,7 @@ private $loginCheck;
                 $_SESSION['user_email'] = $user['contact_mail'];
                 $_SESSION['profilePicture'] = $user['profile_picture'];
                 $_SESSION['company_id'] = $user['company_id'];
+                $_SESSION['bid_security'] = $this->database->getSecurityRate();
                 $this->loginCheck = true;
 
                 $response = ['status' => 'success',

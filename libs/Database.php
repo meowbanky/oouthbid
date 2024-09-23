@@ -46,6 +46,14 @@ class Database {
         }
     }
 
+    public function getSecurityRate(){
+        $query = "SELECT bid_security FROM bid_security";
+        if($rate = $this->App->selectOne($query,[])){
+            return $rate['bid_security'];
+        }else{
+            return 0.30;
+        }
+    }
     public function calBidSec($company_id,$rate): false|float
     {
 //        get total bid amount

@@ -20,7 +20,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") & $_POST["action"] === 'insert'){
 }
 if(($_SERVER["REQUEST_METHOD"] == "POST") & $_POST["action"] === 'total_bidsec'){
     $company_id = $_SESSION["company_id"];
-    $rate = floatval(0.05);
+    $rate = $_SESSION['bid_security'];
     $price =  $Price->showTotalPriceItems($company_id);
     echo number_format(($price * $rate),2);
 }

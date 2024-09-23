@@ -14,7 +14,7 @@ class App
     public $host = HOST;
     public $dbname = DBNAME;
     public $pass = PASS;
-    public $user = USER;
+    public $user = DB_USER;
     public $link;
 
     public $host_mail = HOST_MAIL;

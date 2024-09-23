@@ -1,29 +1,33 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+
 if (!defined('HOST')) {
-    define('HOST', 'localhost');
+    define('HOST', $_ENV['HOST']);
 }
 if (!defined('DBNAME')) {
-    define('DBNAME', 'oouth_bid');
+    define('DBNAME', $_ENV['DBNAME']);
 }
-if (!defined('USER')) {
-    define('USER', 'oouthsal_root');
+if (!defined('DB_USER')) {
+    define('DB_USER', $_ENV['DB_USER']);
 }
 if (!defined('PASS')) {
-    define('PASS', 'Oluwaseyi@7980');
+    define('PASS', $_ENV['PASS']);
 }
 
 if (!defined('HOST_MAIL')) {
-    define('HOST_MAIL', 'mail.oouth.com');
+    define('HOST_MAIL', $_ENV['HOST_MAIL']);
 }
 if (!defined('USERNAME_MAIL')) {
-    define('USERNAME_MAIL', 'no-reply@oouth.com');
+    define('USERNAME_MAIL', $_ENV['USERNAME_MAIL']);
 }
 if (!defined('PASSWORD_MAIL')) {
-    define('PASSWORD_MAIL', 'Masanwo@7980');
+    define('PASSWORD_MAIL', $_ENV['PASSWORD_MAIL']);
 }
 if(!defined('FROM_EMAIL')) {
-    define('FROM_EMAIL','OOUTH BID');
+    define('FROM_EMAIL',$_ENV['FROM_EMAIL']);
 }
 // config.php
 //define('BASE_URL', 'http://localhost:8000/tascesalary/');
