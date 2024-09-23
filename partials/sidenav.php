@@ -46,7 +46,12 @@
                     <span class="menu-text"> Add Price </span>
                 </a>
             </li>
-
+            <li class="menu-item">
+                <a href="print.php" class="menu-link">
+                    <span class="menu-icon"><i class="mgc_print_line"></i></span>
+                    <span class="menu-text">Print</span>
+                </a>
+            </li>
             <li class="menu-item">
                 <a href="upload.php" class="menu-link">
                     <span class="menu-icon"><i class="mgc_upload_2_line"></i></span>
