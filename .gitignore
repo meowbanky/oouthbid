@@ -1,0 +1,17 @@
+# Ignore PHP vendor directory
+vendor/
+
+# Ignore IDE specific files
+.idea/
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore all log files
+*.log
+
+
+node_modules
+template
+oouth-bid
+vendor
