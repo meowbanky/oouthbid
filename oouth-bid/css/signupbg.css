@@ -1,0 +1,9 @@
+.bodybg {
+    border: 100px solid rgb(216, 216, 228);
+    padding: 105px;
+    background-repeat: no-repeat;
+    background-size: auto;
+    -webkit-box-shadow: 17px 18px 43px -8px rgba(215, 213, 221, 0.16);
+    -moz-box-shadow: 17px 18px 43px -8px rgba(184, 185, 192, 0.16);
+    box-shadow: 17px 18px 43px -8px rgba(233, 234, 236, 0.16);
+}
