@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    environment:
+      FLUTTERWAVE_SECRET_KEY: "FLWSECK_TEST-c2422d3d33df001cb20c77bdf78ffb77-X"
+      FLUTTERWAVE_PUBLIC_KEY: "FLWPUBK_TEST-404f90ae7dfd1b8f6ef70109084bef0f-X"
+      DB_HOST: mysql
+      DB_DATABASE: oouth_bid
+      DB_USERNAME: root
+      DB_PASSWORD: root_password
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: oouth_bid
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
