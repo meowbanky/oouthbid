@@ -7,7 +7,7 @@ use App\Database;
 use App\Emailer;
 use App\Validator;
 
-class Price
+class PrintServices
 {
     private $App;
     private $validator;
@@ -23,6 +23,10 @@ class Price
 
     public function showPriceItemsByCompany($company_id){
         return $this->database->getCompanyPrice($company_id);
+    }
+
+    public function showItemList($company_id,$dept_id){
+    return $this->database->printItemPrice($company_id,$dept_id);
     }
 
     public function showBiddedDept($company_id){

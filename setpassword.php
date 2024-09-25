@@ -6,7 +6,7 @@ use App\Database;
 
 $App = new App();
 $database = new Database($App);
-$token = $_GET['token'];
+$token = $_GET['token'] ?? null;
 
 $tokenCheck = $database->passwordReset($token);
 

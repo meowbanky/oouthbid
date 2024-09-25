@@ -54,6 +54,82 @@ class Database {
             return 0.30;
         }
     }
+
+    public function  getBidedDept($commpany_id){
+        $query = "SELECT DISTINCT(tbl_dept.dept) as dept, tbl_dept.dept_id FROM item_price
+	                INNER JOIN items ON item_price.item_id = items.item_id INNER JOIN tbl_dept ON items.dept_id = tbl_dept.dept_id
+	                INNER JOIN tbl_company ON item_price.company_id = tbl_company.company_id WHERE item_price.company_id = :company_id";
+        $params = [':company_id' => $commpany_id];
+        return $this->App->selectAll($query,$params);
+    }
+
+    public function printItemPrice($company_id, $dept_id = -1) {
+        $query = "SELECT packSize, items.dept_id, item_price.item_id, tbl_company.company_name, items.item, items.packSize, 
+              items.spec, item_price.price, item_price.qty, item_price.remarks, tbl_dept.dept, 
+              items.qty AS qty_year 
+              FROM item_price
+              INNER JOIN items ON item_price.item_id = items.item_id
+              INNER JOIN tbl_dept ON items.dept_id = tbl_dept.dept_id
+              INNER JOIN tbl_company ON item_price.company_id = tbl_company.company_id
+              WHERE item_price.company_id = :company_id";
+
+        // If a specific department is chosen, modify the query and parameters
+        $params = [':company_id' => $company_id];
+
+        if($dept_id != -1) {
+            $query .= " AND items.dept_id = :dept_id";
+            $params[':dept_id'] = $dept_id;
+        }
+
+        return $this->App->selectAll($query, $params);
+    }
+
+    public function savePasswordResetToken($email, $resetToken, $expiry) {
+        // SQL query to insert token and expiry, or update if email already exists
+        $query = "INSERT INTO password_resets (email, token, expiry) 
+              VALUES (:email, :token, :expiry) 
+              ON DUPLICATE KEY UPDATE 
+              token = VALUES(token), 
+              expiry = VALUES(expiry)";
+
+        // Bind parameters
+        $params = [
+            ':email' => $email,
+            ':token' => $resetToken,
+            ':expiry' => $expiry
+        ];
+
+        // Execute the query
+        return $this->App->executeNonSelect($query, $params);
+    }
+
+
+    // Get the reset request by token
+    public function getPasswordResetRequest($resetToken) {
+        $query = "SELECT * FROM password_resets WHERE token = :token";
+        $params = [':token' => $resetToken];
+        return $this->App->selectOne($query, $params);
+    }
+
+    // Update the user password
+    public function updateUserPassword($email, $newPassword) {
+        $query = "UPDATE tblusers SET UPassword = :UPassword WHERE Username = :Username";
+        $params = [':UPassword' => $newPassword, ':Username' => $email];
+        return $this->App->executeNonSelect($query, $params);
+    }
+
+    // Clear the password reset token after use
+    public function clearPasswordResetToken($email) {
+        $query = "DELETE FROM password_resets WHERE email = :email";
+        $params = [':email' => $email];
+         return $this->App->executeNonSelect($query, $params);
+    }
+
+    public function checkEmailReset($email){
+    $query = "SELECT EMAIL FROM employee WHERE EMAIL = :email LIMIT 1";
+    $params = [':email' => $email];
+    return $this->App->selectOne($query,$params);
+    }
     public function calBidSec($company_id,$rate): false|float
     {
 //        get total bid amount

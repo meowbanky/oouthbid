@@ -26,6 +26,93 @@ private $loginCheck;
             session_start();
         }
     }
+    public function requestPasswordReset() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = trim($_POST['email']);
+
+            $this->validator->validateEmail($email);
+
+            if (!$this->validator->hasErrors()) {
+                // Check if user exists
+                $user = $this->database->getUserByEmail($email);
+                if ($user) {
+                    // Generate a reset token
+                    $resetToken = bin2hex(random_bytes(16));
+                    $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+                    // Save the reset token and expiry in the database
+                    $this->database->savePasswordResetToken($email, $resetToken, $expiry);
+
+                    // Send reset email
+                    $this->sendPasswordResetEmail($email, $resetToken);
+
+                    $response = ['status' => 'success', 'message' => 'Password reset email sent.'];
+                    echo json_encode($response);
+                } else {
+                    $response = ['status' => 'error', 'message' => 'Email not found.'];
+                    echo json_encode($response);
+                }
+            } else {
+                $response = ['status' => 'error', 'errors' => $this->validator->getErrors()];
+                echo json_encode($response);
+            }
+        }
+    }
+
+    // Reset password after token verification
+    public function resetPassword() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $resetToken = trim($_POST['token']);
+            $newPassword = trim($_POST['password']);
+            // Validate new password
+            $this->validator->validateNotEmpty($newPassword, 'Password');
+
+            if (!$this->validator->hasErrors()) {
+                // Get the reset request from the database
+                $resetRequest = $this->database->getPasswordResetRequest($resetToken);
+
+                if ($resetRequest && new DateTime() < new DateTime($resetRequest['expiry'])) {
+                    // Token is valid, update the password
+                    $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+                    $this->database->updateUserPassword($resetRequest['email'], $hashedPassword);
+
+                    // Clear the reset token
+                    $this->database->clearPasswordResetToken($resetRequest['email']);
+
+                    $response = ['status' => 'success', 'message' => 'Password reset successfully.'];
+                    echo json_encode($response);
+                } else {
+                    $response = ['status' => 'error', 'message' => 'Invalid or expired token.'];
+                    echo json_encode($response);
+                }
+            } else {
+                $response = ['status' => 'error', 'errors' => $this->validator->getErrors()];
+                echo json_encode($response);
+            }
+        }
+    }
+
+    private function sendPasswordResetEmail($email, $resetToken) {
+//        $resetUrl = "https://yourdomain.com/reset-password?token=$resetToken";
+        $message = '
+    <div style="background-color:#f8f8f8;padding-top:40px;padding-bottom:30px">
+        <div style="max-width:600px;margin:auto">
+            <div style="background-color:#fff;padding:16px;text-align:center">
+                <img style="width:120px" src="https://example.com/logo.png" alt="Logo">
+            </div>
+            <div style="background-color:#fff;padding:20px;color:#222;font-size:14px;line-height:1.4;text-align:center">
+                <p>You have requested a pasword reset.  <br>To reset your password, just click the link below:</p>
+                <p><a href="https://oouth-bid/setpassword.php/?token=' . $resetToken . '" target="_blank">Click here to reset your password</a></p>
+                <p>This link will expire in 24 hours, so be sure to activate your account soon.</p>
+                <p>If you did not make this request, you can ignore this email.</p>
+            </div>
+        </div>
+    </div>';
+        $this->App->sendEmailWithAttachment($email, 'Password Reset', $message);
+
+
+
+    }
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response = [];
