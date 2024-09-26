@@ -5,7 +5,10 @@ use App\Controllers;
 use App\App;
 $App = new App();
 $Auth = new Controllers\AuthController($App);
-$Auth->requestPasswordReset();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+$baseurl = $_ENV['BASE_URL'];
+$Auth->requestPasswordReset($baseurl);
 
 
 ?>

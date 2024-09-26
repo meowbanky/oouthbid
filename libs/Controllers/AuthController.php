@@ -26,7 +26,7 @@ private $loginCheck;
             session_start();
         }
     }
-    public function requestPasswordReset() {
+    public function requestPasswordReset($baseurl) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = trim($_POST['email']);
 
@@ -44,7 +44,7 @@ private $loginCheck;
                     $this->database->savePasswordResetToken($email, $resetToken, $expiry);
 
                     // Send reset email
-                    $this->sendPasswordResetEmail($email, $resetToken);
+                    $this->sendPasswordResetEmail($email, $resetToken,$baseurl);
 
                     $response = ['status' => 'success', 'message' => 'Password reset email sent.'];
                     echo json_encode($response);
@@ -92,17 +92,16 @@ private $loginCheck;
         }
     }
 
-    private function sendPasswordResetEmail($email, $resetToken) {
-//        $resetUrl = "https://yourdomain.com/reset-password?token=$resetToken";
-        $message = '
+    private function sendPasswordResetEmail($email, $resetToken,$baseurl) {
+    $message = '
     <div style="background-color:#f8f8f8;padding-top:40px;padding-bottom:30px">
         <div style="max-width:600px;margin:auto">
             <div style="background-color:#fff;padding:16px;text-align:center">
-                <img style="width:120px" src="https://example.com/logo.png" alt="Logo">
+                <img style="width:120px" src="'.$baseurl.'/assets/images/apple-touch-icon.png" alt="Logo">
             </div>
             <div style="background-color:#fff;padding:20px;color:#222;font-size:14px;line-height:1.4;text-align:center">
                 <p>You have requested a pasword reset.  <br>To reset your password, just click the link below:</p>
-                <p><a href="https://oouth-bid/setpassword.php/?token=' . $resetToken . '" target="_blank">Click here to reset your password</a></p>
+                <p><a href="'.$baseurl.'/setpassword.php/?token=' . $resetToken . '" target="_blank">Click here to reset your password</a></p>
                 <p>This link will expire in 24 hours, so be sure to activate your account soon.</p>
                 <p>If you did not make this request, you can ignore this email.</p>
             </div>
