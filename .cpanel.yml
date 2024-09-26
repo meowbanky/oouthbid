@@ -6,5 +6,5 @@ deployment:
     - /bin/cp -R * $DEPLOYPATH     # Copy all files from the repo to the target directory
     - /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=$DEPLOYPATH  # Install dependencies
     - cp .env.example $DEPLOYPATH/.env    # Copy example environment file if needed
-    - php $DEPLOYPATH/artisan migrate --force  # Run database migrations if you’re using Laravel or similar
-    - php $DEPLOYPATH/artisan cache:clear      # Clear the cache (for frameworks like Laravel)
+#    - php $DEPLOYPATH/artisan migrate --force  # Run database migrations if you’re using Laravel or similar
+#    - php $DEPLOYPATH/artisan cache:clear      # Clear the cache (for frameworks like Laravel)
