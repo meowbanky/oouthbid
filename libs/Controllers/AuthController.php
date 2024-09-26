@@ -101,7 +101,7 @@ private $loginCheck;
             </div>
             <div style="background-color:#fff;padding:20px;color:#222;font-size:14px;line-height:1.4;text-align:center">
                 <p>You have requested a pasword reset.  <br>To reset your password, just click the link below:</p>
-                <p><a href="'.$baseurl.'/setpassword.php/?token=' . $resetToken . '" target="_blank">Click here to reset your password</a></p>
+                <p><a href="'.$baseurl.'/setpassword.php?token=' . $resetToken . '" target="_blank">Click here to reset your password</a></p>
                 <p>This link will expire in 24 hours, so be sure to activate your account soon.</p>
                 <p>If you did not make this request, you can ignore this email.</p>
             </div>

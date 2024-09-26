@@ -16,7 +16,7 @@ class Emailer {
             </div>
             <div style="background-color:#fff;padding:20px;color:#222;font-size:14px;line-height:1.4;text-align:center">
                 <p>You have successfully registered as user on the oouth bid platform.  <br>To activate your account, just click the link below:</p>
-                <p><a href="'.$baseurl.'/setpassword.php/?token=' . $token . '" target="_blank">https://oouth-bid.com.ng/password_reset/?token=' . $token . '</a></p>
+                <p><a href="'.$baseurl.'/setpassword.php?token=' . $token . '" target="_blank">https://oouth-bid.com.ng/password_reset/?token=' . $token . '</a></p>
                 <p>This link will expire in 24 hours, so be sure to activate your account soon.</p>
                 <p>If you did not make this request, you can ignore this email.</p>
             </div>
