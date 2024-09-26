@@ -10,7 +10,7 @@ vendor/
 # Ignore all log files
 *.log
 
-#.env
+.env
 
 node_modules
 template
