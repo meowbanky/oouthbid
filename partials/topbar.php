@@ -159,7 +159,7 @@
     </div>
 
     <!-- Light/Dark Toggle Button -->
-    <div class="flex">
+    <div class="flex" >
         <button id="light-dark-mode" type="button" class="nav-link p-2">
             <span class="sr-only">Light/Dark Mode</span>
             <span class="flex items-center justify-center h-6 w-6">
