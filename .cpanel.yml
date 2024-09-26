@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/oouthco/bid/
+    - /bin/cp -R images $DEPLOYPATH
