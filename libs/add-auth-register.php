@@ -1,7 +1,9 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php' ;
 use App\App;
-
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+$baseurl = $_ENV['BASE_URL'];
 
 $App = new App();
 
@@ -85,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $App->executeNonSelect($query, $params);
 
                 // Send the activation email using PHPMailer
-                $resetLink = "/token_auth_user.php?token=$token";
+                $resetLink = $baseurl."/token_auth_user.php?token=$token";
                 $message = "
                     Dear  $comp_name Team,<br><br>
                     I hope this email finds you well.<br>
