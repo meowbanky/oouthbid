@@ -39,7 +39,7 @@ class UserController {
             $this->validator->validateNotEmpty($user_firstname, 'First name');
             $this->validator->validateNotEmpty($user_lastname, 'Last name');
             $this->validator->validateMobile($user_mobile);
-            $this->validator->validateExisting('tblusers', 'Username', $LoggingEmailAddress, 'Username');
+           echo  $this->validator->validateExisting('tblusers', 'Username', $LoggingEmailAddress, 'Username');
 
             if (!$this->validator->hasErrors()) {
                 $tokenCheck = $this->App->tokenCheck($token);
