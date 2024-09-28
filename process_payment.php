@@ -10,7 +10,7 @@ $App = new App();
 $company_id = $_SESSION['company_id'];
 $Subscription = new Controllers\SubscriptionController($App);
 $validator = new Validator($App);
-$subSelects = $Subscription->getAllSubscription();
+$subSelects = $Subscription->getAllSubscription($company_id);
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
