@@ -298,7 +298,7 @@ class Database {
             INNER JOIN
             tbl_company
             ON 
-            user_company.company_id = tbl_company.company_id WHERE user_company.status = 1 AND tbl_company.status = 1 
+            user_company.company_id = tbl_company.company_id WHERE user_company.status = 1 AND user_company.status = 1 
             AND contact_mail = :contact_mail";
        $params = [':contact_mail' => $email];
        $result = $this->App->selectOne($sql,$params);
