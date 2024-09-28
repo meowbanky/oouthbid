@@ -1,7 +1,16 @@
 <?php
 namespace App;
+use App\Database;
 class Validator
 {
+    private $database;
+    private $App;
+
+    public function __construct(App $App) {
+        $this->App = $App;
+        $this->database = new Database($App);
+
+    }
     public $errors = [];
 
     public function validateEmail($email) {
@@ -10,6 +19,13 @@ class Validator
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->errors[] = 'Valid email is required';
         }
+    }
+
+    public function validateExisting($tableName, $column, $columnValue, $columnParameter) {
+       $existing = $this->database->tableCheck($tableName, $column, $columnValue, $columnParameter);
+    if($existing) {
+        $this->errors[] = $column.' Already Exists in the database';
+     }
     }
 
     public function confirmPassword($password,$confirmPassword){

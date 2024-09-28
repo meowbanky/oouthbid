@@ -174,6 +174,7 @@ class App
         return $this->selectOne($query,$params);
     }
 
+
     public function hashPassword($password)
     {
         return password_hash($password, PASSWORD_DEFAULT);

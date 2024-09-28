@@ -30,6 +30,19 @@ class Database {
         return $this->App->selectAll($query, $params);
     }
 
+    public function tableCheck($tableName, $column, $columnValue, $columnParameter) {
+        // Use placeholders for parameterized queries
+        $query = "SELECT {$column} FROM {$tableName} WHERE {$column} = :{$columnParameter}";
+
+        // Bind the parameter correctly
+        $params = [
+            ":{$columnParameter}" => $columnValue
+        ];
+
+        // Execute the query
+        return $this->App->selectOne($query, $params);
+    }
+
 //    check item before inserting item
     public function checkItems($item_id,$company_id){
         $query = "SELECT count(*) FROM item_price WHERE company_id = :company_id and item_id = :item_id";
