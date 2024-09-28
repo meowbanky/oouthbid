@@ -8,7 +8,7 @@ use App\App;
 $App = new App();
 $company_id = $_SESSION['company_id'];
 $Subscription = new Controllers\SubscriptionController($App);
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 $baseurl = $_ENV['BASE_URL'];
 
