@@ -12,8 +12,9 @@ $Subscription = new Controllers\SubscriptionController($App);
 $validator = new Validator($App);
 $subSelects = $Subscription->getAllSubscription($company_id);
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
+$baseurl = $_ENV['BASE_URL'];
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -43,7 +44,7 @@ $companyName    = $Subscription->showCompanyNameById($_SESSION['company_id']);
         "tx_ref" => $tx_ref, // Unique transaction reference
         "amount" => $amount,
         "currency" => $currency,
-        "redirect_url" => "http://localhost:3000/oouth_bid/payment-callback.php", // Callback URL after payment
+        "redirect_url" => $baseurl."/payment-callback.php", // Callback URL after payment
         "customer" => [
             "email" => $email,
             "phonenumber" => "1234567890",

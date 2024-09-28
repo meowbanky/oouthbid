@@ -8,6 +8,9 @@ use App\App;
 $App = new App();
 $company_id = $_SESSION['company_id'];
 $Subscription = new Controllers\SubscriptionController($App);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+$baseurl = $_ENV['BASE_URL'];
 
 // Include Flutterwave API details
 $flutterwaveSecretKey = "FLWSECK_TEST-c2422d3d33df001cb20c77bdf78ffb77-X";
