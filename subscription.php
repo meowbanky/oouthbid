@@ -94,19 +94,15 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                             <?php echo $mySubscription['lot_description']; ?>
                                         </td>
                                     </tr>
-                                <?php }
-                            } else { ?>
-                                <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center">
-                                        <span class="font-bold text-gray-500 dark:text-gray-400">No Subscription Available</span>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                                <?php } ?>
                             </tbody>
 
                         </table>
                     </div>
-
+                    <?php } else { ?>
+                    <div> <span class="font-bold text-gray-500 dark:text-gray-400">No Subscription Available</span></div>
+                    <?php }
+                    ?>
                     <div id="default-modal" class="w-full h-full mt-5 fixed top-0 left-0 z-50 transition-all duration-500 fc-modal hidden">
                         <div class="fc-modal-open:opacity-100 duration-500 opacity-500 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white border shadow-sm rounded-md dark:bg-slate-800 dark:border-gray-700">
                             <div class="flex justify-between items-center text-gray-800 py-2.5 px-4 border-b border-gray-200 dark:border-gray-700">
