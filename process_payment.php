@@ -4,11 +4,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Controllers;
 use App\App;
+use App\Validator;
 
 $App = new App();
 $company_id = $_SESSION['company_id'];
 $Subscription = new Controllers\SubscriptionController($App);
-$validator = new \App\Validator();
+$validator = new Validator($App);
 $subSelects = $Subscription->getAllSubscription();
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
