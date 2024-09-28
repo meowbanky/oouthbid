@@ -16,7 +16,7 @@ class Controller {
 
     public function __construct(App $App) {
         $this->App = $App;
-        $this->validator = new Validator();
+        $this->validator = new Validator($App);
         $this->database = new Database($App);
         $this->emailer = new Emailer($App);
     }

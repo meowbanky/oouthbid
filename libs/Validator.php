@@ -23,7 +23,7 @@ class Validator
 
     public function validateExisting($tableName, $column, $columnValue, $columnParameter) {
        $existing = $this->database->tableCheck($tableName, $column, $columnValue, $columnParameter);
-       if($existing) {
+      if($existing) {
         $this->errors[] = $column.' Already Exists in the database';
      }
     }

@@ -38,7 +38,10 @@ class Database {
         $params = [
             ":{$columnParameter}" => $columnValue
         ];
-
+        // Log or output the query for debugging purposes
+        // Uncomment the following lines to debug
+//         echo "Query: " . $query . PHP_EOL;
+//         print_r($params);
         // Execute the query
         return $this->App->selectOne($query, $params);
     }

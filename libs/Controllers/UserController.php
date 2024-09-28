@@ -23,7 +23,7 @@ class UserController {
         $this->emailer = new Emailer($App);
     }
 
-    public function registerUser() {
+    public function registerUser($baseurl) {
         $response = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -39,11 +39,16 @@ class UserController {
             $this->validator->validateNotEmpty($user_firstname, 'First name');
             $this->validator->validateNotEmpty($user_lastname, 'Last name');
             $this->validator->validateMobile($user_mobile);
-           echo  $this->validator->validateExisting('tblusers', 'Username', $LoggingEmailAddress, 'Username');
+            $this->validator->validateExisting('account_token', 'email', $LoggingEmailAddress, 'email');
+            $this->validator->validateExisting('tblusers', 'Username', $LoggingEmailAddress, 'Username');
+            $this->validator->validateExisting('password_resets', 'email', $LoggingEmailAddress, 'email');
 
             if (!$this->validator->hasErrors()) {
                 $tokenCheck = $this->App->tokenCheck($token);
                 if ($tokenCheck) {
+
+                    $this->validator->validateExisting('tblusers', 'Username', $LoggingEmailAddress, 'Username');
+
                     $user_id = $this->database->insertUser($user_lastname, $LoggingEmailAddress, $user_firstname, $user_mobile);
                     $this->database->insertUserCompany($company_id, $user_id);
 
@@ -51,7 +56,7 @@ class UserController {
                     $expiry = date('Y-m-d H:i:s', strtotime('+2 hours'));
                     $this->database->insertPasswordReset($LoggingEmailAddress, $newToken, $expiry);
 
-                    $this->emailer->sendActivationEmail($LoggingEmailAddress, $newToken);
+                    $this->emailer->sendActivationEmail($LoggingEmailAddress, $newToken,$baseurl);
 
 //                    $this->database->passwordToken($LoggingEmailAddress, $newToken, $expiry);
                     $this->database->updateCompanyToken($token);
