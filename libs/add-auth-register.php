@@ -45,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         // Check if the company already exists
-        $checkQuery = "SELECT * FROM tbl_company WHERE company_name = :company_name";
-        $checkParams = [':company_name' => $comp_name];
+        $checkQuery = "SELECT * FROM tbl_company WHERE company_name = :company_name OR email = :email";
+        $checkParams = [':company_name' => $comp_name,':email' => $comp_email];
         $existingCompany = $App->selectOne($checkQuery, $checkParams);
 
         if ($existingCompany) {
             $response = [
                 'status' => 'error',
-                'message' => 'Company already in the system.'
+                'message' => 'Company / Email already in the system.'
             ];
         } else {
             // Insert the new company into the database
