@@ -12,7 +12,7 @@ $Subscription = new Controllers\SubscriptionController($App);
 $validator = new Validator($App);
 $subSelects = $Subscription->getAllSubscription($company_id);
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 $baseurl = $_ENV['BASE_URL'];
 
