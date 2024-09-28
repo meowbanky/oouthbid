@@ -52,7 +52,7 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
     <div><button data-fc-target="default-modal" data-fc-type="modal" class="btn text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Buy Sub.</button>
     </div>
 </div>
-                    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table id="subscription_table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -95,12 +95,10 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                         </td>
                                     </tr>
                                 <?php }
-                             ?>
+                            } ?>
                             </tbody>
+
                         </table>
-                        <?php } else { ?>
-                         <span class="font-bold text-gray-500 dark:text-gray-400">No Subscription Available</span>
-                        <?php } ?>
                     </div>
 
                     <div id="default-modal" class="w-full h-full mt-5 fixed top-0 left-0 z-50 transition-all duration-500 fc-modal hidden">
