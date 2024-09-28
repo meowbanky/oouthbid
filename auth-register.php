@@ -28,11 +28,13 @@
                         <div class="mb-4 relative">
                             <input id="comp_name" required name="comp_name" class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-50 dark:bg-gray-700 peer" type="text" placeholder=" ">
                             <label class="ml-2 px-2 absolute text-gray-500 dark:text-gray-400 block bg-gray-50 roundeddark:bg-gray-700 text-sm font-medium mb-2 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:px-2 peer-focus:bg-white peer-focus:dark:bg-gray-700 peer-focus:rounded peer-focus:text-blue-600 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4" for="comp_name">Company Name</label>
+                            <div id="companyNameFeedback" class="mt-1 text-sm"></div>
                         </div>
 
                         <div class="mb-4 relative">
                             <input id="comp_email" required name="comp_email" class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-50 dark:bg-gray-700 peer" type="email" placeholder=" ">
                             <label class="ml-2 px-2 absolute text-gray-500 dark:text-gray-400 block bg-gray-50 roundeddark:bg-gray-700 text-sm font-medium mb-2 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] peer-focus:px-2 peer-focus:bg-white peer-focus:dark:bg-gray-700 peer-focus:rounded peer-focus:text-blue-600 peer-focus:dark:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4" for="comp_email">Company Email Address</label>
+                            <div id="companyEmailFeedback" class="mt-1 text-sm"></div>
                         </div>
 
                         <div class="mb-4 relative">
@@ -98,6 +100,56 @@
     <!-- ============================================================== -->
     <script>
         $(document).ready(function() {
+
+            $('#comp_name').on("input",function(){
+                var companyName = $(this).val();
+                $('#companyNameFeedback').html('');
+                if(companyName.length > 4){
+                $.ajax({
+                    type: 'POST',
+                    url: 'libs/check-company-name.php',
+                    data:{companyName:companyName},
+                    dataType: 'JSON',
+                    success:function (response){
+                        if(response.status === 'success'){
+                            $('#companyNameFeedback').html('<span class="text-green-500">' + response.message + '</span>');
+                        }else{
+                            $('#companyNameFeedback').html('<span class="text-red-500">' + response.message + '</span>');
+                        }
+                    },
+                    error: function (xhr,status,error){
+                        cosole.log(error)
+                        $('#companyNameFeedback').html('<span class="text-red-500">An error occurred. Please try again.</span>');
+                    }
+                })
+
+                }
+            })
+
+            $('#comp_email').on("input",function(){
+                var comp_email = $(this).val();
+                $('#companyEmailFeedback').html('');
+                if(comp_email.length > 4){
+                    $.ajax({
+                        type: 'POST',
+                        url: 'libs/check-company-name.php',
+                        data:{comp_email:comp_email},
+                        dataType: 'JSON',
+                        success:function (response){
+                            if(response.status === 'success'){
+                                $('#companyEmailFeedback').html('<span class="text-green-500">' + response.message + '</span>');
+                            }else{
+                                $('#companyEmailFeedback').html('<span class="text-red-500">' + response.message + '</span>');
+                            }
+                        },
+                        error: function (xhr,status,error){
+                            cosole.log(error)
+                            $('#companyEmailFeedback').html('<span class="text-red-500">An error occurred. Please try again.</span>');
+                        }
+                    })
+
+                }
+            })
 
             $('#companyregistration').submit(function(event) {
                 event.preventDefault();
