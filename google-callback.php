@@ -43,8 +43,8 @@ if (isset($_GET['code'])) {
         $_SESSION['user_email'] = $user['contact_mail'];
 //        $_SESSION['profilePicture'] = $user['profile_picture'];
         $_SESSION['company_id'] = $user['company_id'];
-        $_SESSION['bid_security'] = $this->database->getSecurityRate();
-        $this->loginCheck = true;
+        $_SESSION['bid_security'] = $database->getSecurityRate();
+        $auth->loginCheck = true;
         // Use $userInfo to get user details like email, name, etc.
         $_SESSION['email'] = $userInfo->email;
         $_SESSION['name'] = $userInfo->name;

@@ -11,7 +11,7 @@ private $App;
 private $validator;
 private $database;
 
-private $loginCheck;
+public $loginCheck;
 
     public function __construct(App $App) {
     $this->App = $App;
