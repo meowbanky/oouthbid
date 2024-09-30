@@ -3,8 +3,8 @@ session_start();
 require_once __DIR__.'/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-$clientId = $_ENV('GOOGLE_CLIENT_ID');
-$clientSecret = $_ENV('GOOGLE_CLIENT_SECRET');
+$clientId = $_ENV['GOOGLE_CLIENT_ID'];
+$clientSecret = $_ENV['GOOGLE_CLIENT_SECRET'];
 
 
 $client = new Google_Client();
