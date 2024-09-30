@@ -10,7 +10,7 @@ $clientSecret = $_ENV['GOOGLE_CLIENT_SECRET'];
 $client = new Google_Client();
 $client->setClientId($clientId);
 $client->setClientSecret($clientSecret);
-$client->setRedirectUri('http://oouthbid.oouth.com/google-callback.php');
+$client->setRedirectUri('https://oouthbid.oouth.com/google-callback.php');
 $client->addScope('email');
 $client->addScope('profile');
 
