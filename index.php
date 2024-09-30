@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex gap-4 justify-center mb-6">
-                    <a href="javascript:void(0)" class="btn border-light text-gray-400 dark:border-slate-700">
+                    <a href="google-login.php" class="btn border-light text-gray-400 dark:border-slate-700">
                             <span class="flex justify-center items-center gap-2">
                                 <i class="mgc_google_line text-danger text-xl"></i>
                                 <span class="lg:block hidden">Google</span>
