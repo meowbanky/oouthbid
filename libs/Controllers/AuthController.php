@@ -26,6 +26,53 @@ public $loginCheck;
             session_start();
         }
     }
+    public function setCookie($userId){
+
+        $token = bin2hex(random_bytes(16));
+
+        // Store the token in the database with user ID and expiration time
+        $expiryTime = time() + (30 * 24 * 60 * 60); // 30 days
+        $expiryDateTime = date('Y-m-d H:i:s', $expiryTime);
+        $stmt = $this->database->insertCookies($userId, $token, $expiryDateTime);
+        $isSecure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
+        $cookieOptions = [
+            'expires' => $expiryTime,
+            'path' => '/',
+            'secure' => $isSecure,  // Set to true if HTTPS
+            'httponly' => true
+        ];
+        setcookie('token', $token, $cookieOptions);
+    }
+    public function checkToken($token)
+    {
+        $response = [];
+        $check = isset($_COOKIE[$token]) ? true : false;
+        $response = ["token" => $check];
+        echo json_encode($response);
+    }
+    public function tokenVerify(){
+
+        $token = $_COOKIE['token'];
+        $tokenVerify = $this->database->tokenVerify($token);
+
+        if ($tokenVerify) {
+
+            $user = $this->database->getUserByEmail($tokenVerify['contact_mail']);
+
+            $_SESSION['user_id'] = $user['Id'];
+            $_SESSION['user_email'] = $user['contact_mail'];
+            $_SESSION['profilePicture'] = $user['profile_picture'];
+            $_SESSION['company_id'] = $user['company_id'];
+            $_SESSION['bid_security'] = $this->database->getSecurityRate();
+            $this->loginCheck = true;
+            $response = ['status' => 'success',
+                'message' => 'Login Successful'] ;
+        }else{
+            $response = ['status' => 'error',
+                'message' => 'Invalid Token\n Use your username/password to login'] ;
+        }
+        echo json_encode($response);
+    }
     public function requestPasswordReset($baseurl) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = trim($_POST['email']);
@@ -112,46 +159,53 @@ public $loginCheck;
 
 
     }
-    public function login() {
+    public function login()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $response = [];
-            $email = trim($_POST['email']);
-            $password = trim($_POST['password']);
+            if (isset($_POST['email'])) {
+                $response = [];
+                $email = trim($_POST['email']);
+                $password = trim($_POST['password']);
+                $rememberMeCheckbox = trim($_POST['rememberMeCheckbox']);
 
-            $this->validator->validateEmail($email);
-            $this->validator->validateNotEmpty($password, 'Password');
+                $this->validator->validateEmail($email);
+                $this->validator->validateNotEmpty($password, 'Password');
 
-            if (!$this->validator->hasErrors()) {
-                // Check credentials
-                $user = $this->database->getUserByEmail($email);
+                if (!$this->validator->hasErrors()) {
+                    // Check credentials
+                    $user = $this->database->getUserByEmail($email);
 
-                if ($user && password_verify($password, $user['UPassword'])) {
-                $this->setSession();
-                $_SESSION['user_id'] = $user['Id'];
-                $_SESSION['user_email'] = $user['contact_mail'];
-                $_SESSION['profilePicture'] = $user['profile_picture'];
-                $_SESSION['company_id'] = $user['company_id'];
-                $_SESSION['bid_security'] = $this->database->getSecurityRate();
-                $this->loginCheck = true;
+                    if ($user && password_verify($password, $user['UPassword'])) {
+                        $this->setSession();
+                        $_SESSION['user_id'] = $user['Id'];
+                        $_SESSION['user_email'] = $user['contact_mail'];
+                        $_SESSION['profilePicture'] = $user['profile_picture'];
+                        $_SESSION['company_id'] = $user['company_id'];
+                        $_SESSION['bid_security'] = $this->database->getSecurityRate();
+                        $this->loginCheck = true;
+                        if ($rememberMeCheckbox) {
+                            $this->setCookie($_SESSION['user_id']);
+                        }
 
-                $response = ['status' => 'success',
-                    'message' => 'Login Successful'] ;
-                echo json_encode($response);
+                        $response = ['status' => 'success',
+                            'message' => 'Login Successful'];
+                        echo json_encode($response);
 
-                // Redirect to user profile or dashboard
-                //header("Location: /user/{$user['id']}");
-                exit;
+                        // Redirect to user profile or dashboard
+                        //header("Location: /user/{$user['id']}");
+                        exit;
+                    } else {
+                        // Invalid credentials
+                        $response = ['status' => 'error',
+                            'message' => 'Invalid credentials'];
+                        echo json_encode($response);
+                    }
                 } else {
-                // Invalid credentials
                     $response = ['status' => 'error',
-                              'message' => 'Invalid credentials'] ;
+                        'message' => 'Please fix the errors below.',
+                        'errors' => $this->validator->getErrors()];
                     echo json_encode($response);
                 }
-            } else {
-                 $response = ['status' => 'error',
-                'message' => 'Please fix the errors below.',
-                     'errors' => $this->validator->getErrors()] ;
-                echo json_encode($response);
             }
         }
     }

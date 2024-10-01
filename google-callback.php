@@ -52,7 +52,6 @@ if (isset($_GET['code'])) {
 
 
 
-
     // Redirect to a welcome page or wherever you need
     header('Location: subscription.php');
     exit();

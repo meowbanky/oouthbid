@@ -12,5 +12,15 @@ $App = new App();
 $authController = new AuthController($App);
 
 // Call the registerUser method to handle the request
-
 $authController->login();
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['act']) & $_POST['act'] === 'tokenlogin') {
+        $authController->tokenVerify();
+    }
+
+    if(isset($_POST['act']) & $_POST['act'] === 'checkToken') {
+        $token = $_POST['token'];
+       echo $authController->checkToken($token);
+    }
+}

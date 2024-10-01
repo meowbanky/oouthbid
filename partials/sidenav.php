@@ -60,7 +60,7 @@
             </li>
 
             <li class="menu-item">
-                <a href="index.php" class="menu-link">
+                <a href="index.php?logout=logout" class="menu-link">
                     <span class="menu-icon"><i class="mgc_exit_line"></i></span>
                     <span class="menu-text">Logout</span>
                 </a>

@@ -304,7 +304,23 @@ class Database {
        $result = $this->App->selectOne($sql,$params);
        return $result;
     }
+public function insertCookies($user_id, $token, $expires_at){
+        $query = "INSERT INTO user_tokens (user_id, token, expires_at)
+                                        VALUES (:user_id, :token, :expires_at)
+                                        ON DUPLICATE KEY UPDATE
+                                            token = VALUES(token),
+                                            expires_at = VALUES(expires_at);
+                                        ";
+        $params = [':user_id'=>$user_id, ':token'=>$token, ':expires_at'=>$expires_at];
+        return $this->App->executeNonSelect($query, $params);
+}
 
+public function tokenVerify($token){
+        $query = "SELECT tblusers.contact_mail FROM user_tokens INNER JOIN tblusers ON 
+		user_tokens.user_id = tblusers.id WHERE token = :token AND expires_at > NOW()";
+        $params = ['token' => $token];
+       return  $this->App->selectOne($query,$params);
+}
     public function getAvailableSubscriptions($company_id) {
         $sql = "SELECT 
             tbl_dept.dept, 

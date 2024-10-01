@@ -623,6 +623,9 @@ video {
 .left-0 {
   left: 0px !important;
 }
+.right-2 {
+  right: 0.5rem !important;
+}
 .start-0 {
   inset-inline-start: 0px !important;
 }
@@ -637,6 +640,9 @@ video {
 }
 .top-2 {
   top: 0.5rem !important;
+}
+.top-2\.5 {
+  top: 0.625rem !important;
 }
 .top-3\.5 {
   top: 0.875rem !important;
@@ -1275,6 +1281,9 @@ video {
 .ps-3 {
   padding-inline-start: 0.75rem !important;
 }
+.pr-10 {
+  padding-right: 2.5rem !important;
+}
 .text-left {
   text-align: left !important;
 }
@@ -1375,6 +1384,10 @@ video {
 .text-gray-900 {
   --tw-text-opacity: 1 !important;
   color: rgb(17 24 39 / var(--tw-text-opacity)) !important;
+}
+.text-green-500 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(34 197 94 / var(--tw-text-opacity)) !important;
 }
 .text-red-500 {
   --tw-text-opacity: 1 !important;
