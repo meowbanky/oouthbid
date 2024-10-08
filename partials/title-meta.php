@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <title><?php echo $title ?> | OOUTH BID - Admin</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta content="A payroll/Salary management Software" name="description">
+<meta content="A Bid Management Software" name="description">
 <meta content="emmaggi" name="author">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
