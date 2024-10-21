@@ -315,12 +315,26 @@ public function insertCookies($user_id, $token, $expires_at){
         return $this->App->executeNonSelect($query, $params);
 }
 
-public function tokenVerify($token){
-        $query = "SELECT tblusers.contact_mail FROM user_tokens INNER JOIN tblusers ON 
-		user_tokens.user_id = tblusers.id WHERE token = :token AND expires_at > NOW()";
-        $params = ['token' => $token];
-       return  $this->App->selectOne($query,$params);
-}
+    public function tokenVerify($token){
+            $query = "SELECT tblusers.contact_mail FROM user_tokens INNER JOIN tblusers ON 
+            user_tokens.user_id = tblusers.id WHERE token = :token AND expires_at > NOW()";
+            $params = ['token' => $token];
+           return  $this->App->selectOne($query,$params);
+    }
+
+    public function getAllState(){
+        $query = "SELECT id, name from states";
+        $result = $this->App->selectAll($query,[]);
+        return $result;
+    }
+
+    public function getAllLgByState($state_id){
+        $query = "SELECT id,name FROM local_governments WHERE state_id = :state_id";
+        $params = [':state_id'=> $state_id];
+        $result = $this->App->selectAll($query,$params);
+        return $result;
+    }
+
     public function getAvailableSubscriptions($company_id) {
         $sql = "SELECT 
             tbl_dept.dept, 
