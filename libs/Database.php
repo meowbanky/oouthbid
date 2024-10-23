@@ -336,25 +336,9 @@ public function insertCookies($user_id, $token, $expires_at){
     }
 
     public function getAvailableSubscriptions($company_id) {
-        $sql = "SELECT 
-            tbl_dept.dept, 
-            tbl_dept.price, 
-            tbl_dept.dept_id 
-        FROM 
-            tbl_dept
-        WHERE 
-            tbl_dept.dept_id NOT IN (
-                SELECT DISTINCT(tbl_dept.dept_id)
-                FROM
-                    subscription
-                INNER JOIN
-                    tbl_company ON subscription.company_id = tbl_company.company_id
-                INNER JOIN
-                    tbl_dept ON subscription.lot_id = tbl_dept.dept_id
-                INNER JOIN
-                    tbl_lot ON tbl_dept.dept_id = tbl_lot.dept_id
-                WHERE subscription.company_id = :company_id
-            )";
+        $sql = "SELECT lot_table.lot_id, lot_table.lot_name,lot_table.price FROM
+	            lot_table WHERE lot_table.lot_id NOT IN (SELECT subscription.lot_id
+                FROM subscription WHERE subscription.company_id = :company_id)";
 
         $result = $this->App->selectAll($sql,[':company_id' => $company_id]);
         return $result;
@@ -380,15 +364,9 @@ public function insertCookies($user_id, $token, $expires_at){
             ':txRef'=> $txRef];
         return $this->App->ExecuteNonSelect($query, $params);
     }
-    public function getSubscriptionById($dept_id){
-        $query ="SELECT
-                tbl_dept.price, 
-                tbl_dept.dept, 
-                tbl_dept.dept_id
-            FROM
-                tbl_dept
-            WHERE dept_id = :dept_id";
-        $params = [':dept_id' => $dept_id];
+    public function getSubscriptionById($lot_id){
+        $query ="SELECT lot_id, price,lot_name FROM lot_table WHERE lot_id = :lot_id";
+        $params = [':lot_id' => $lot_id];
         return $this->App->selectOne($query, $params);
     }
     public function getCompanyNameById($company_id){
@@ -421,26 +399,10 @@ public function insertCookies($user_id, $token, $expires_at){
         return $this->App->selectOne($query, $params);
     }
     public function getSubscriptionDetailsByCompany($companyId){
-        $query = "SELECT
-                tbl_dept.dept, 
-                tbl_dept.price, 
-                tbl_company.company_name, 
-                tbl_lot.lot_description
-            FROM
-                subscription
-                INNER JOIN
-                tbl_company
-                ON 
-                    subscription.company_id = tbl_company.company_id
-                INNER JOIN
-                tbl_dept
-                ON 
-                    subscription.lot_id = tbl_dept.dept_id
-                INNER JOIN
-                tbl_lot
-                ON 
-                    tbl_dept.dept_id = tbl_lot.dept_id
-                WHERE subscription.company_id = :company_id";
+        $query = "SELECT lot_table.lot_name, dept.dept_name, lot_table.lot_id,lot_table.price,
+	                subscription.company_id,subscription.trans_date FROM lot_table INNER JOIN dept ON 
+		            lot_table.lot_id = dept.lot_id INNER JOIN subscription ON 
+		            lot_table.lot_id = subscription.lot_id WHERE subscription.company_id = :company_id";
         $params = [":company_id" => $companyId];
         return $this->App->selectAll($query, $params);
     }

@@ -57,7 +57,7 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3" data-sortable="true">
-                                    Department
+                                    Lot Description
                                 </th>
                                 <th scope="col" class="px-6 py-3" data-sortable="true">
                                     <div class="flex items-center">
@@ -66,12 +66,12 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                 </th>
                                 <th scope="col" class="px-6 py-3"  data-sortable="true">
                                     <div class="flex items-center">
-                                        Company Name
+                                        Department
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3"  data-sortable="true">
                                     <div class="flex items-center">
-                                        Description
+                                        Date of Purchase
                                     </div>
                                 </th>
                             </tr>
@@ -82,16 +82,16 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                     ?>
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <td class="px-6 py-4">
-                                            <?php echo $mySubscription['dept']; ?>
+                                            <?php echo $mySubscription['lot_name']; ?>
                                         </td>
                                         <td class="px-6 py-4">
                                             <?php echo $mySubscription['price']; ?>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <?php echo $mySubscription['company_name']; ?>
+                                            <?php echo $mySubscription['dept_name']; ?>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <?php echo $mySubscription['lot_description']; ?>
+                                            <?php $transDate = dateTime::createFromFormat('Y-m-d H:i:s',$mySubscription['trans_date']); echo date_format($transDate ,'d/m/Y H:i') ?>
                                         </td>
                                     </tr>
                                 <?php }
@@ -123,7 +123,7 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                                 <?php if($subSelects){
                                                     foreach ($subSelects as $subSelect){
                                                         ?>
-                                                        <option data-price="<?php echo $subSelect['price'] ;?>" value="<?php echo $subSelect['dept_id'] ;?>"><?php echo $subSelect['dept'] ;?> - <?php echo $subSelect['price'] ;?></option>
+                                                        <option data-price="<?php echo $subSelect['price'] ;?>" value="<?php echo $subSelect['lot_id'] ;?>"><?php echo $subSelect['lot_name'] ;?> - <?php echo $subSelect['price'] ;?></option>
                                                     <?php }
                                                 }
                                                 ?>

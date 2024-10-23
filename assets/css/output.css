@@ -1275,14 +1275,14 @@ video {
 .pl-2 {
   padding-left: 0.5rem !important;
 }
+.pr-10 {
+  padding-right: 2.5rem !important;
+}
 .ps-11 {
   padding-inline-start: 2.75rem !important;
 }
 .ps-3 {
   padding-inline-start: 0.75rem !important;
-}
-.pr-10 {
-  padding-right: 2.5rem !important;
 }
 .text-left {
   text-align: left !important;

@@ -25,7 +25,7 @@ if (!$validator->hasErrors()) {
 
 $amounts = $Subscription->showSubscriptionDetailsById($sub_id );
 $subDetails = $Subscription->showSubscriptionDetailsById($sub_id );
-$subDetail = $subDetails['dept'];
+$subDetail = $subDetails['lot_name'];
 
 $companyName    = $Subscription->showCompanyNameById($_SESSION['company_id']);
     // process_payment.php

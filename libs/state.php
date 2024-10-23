@@ -12,5 +12,5 @@ $state = new Controllers\State($App);
 $states = $state->showState();
 
 foreach ($states as $state){
-    echo $state['name'];
+    echo $state['id'].' - '.$state['name'].'<br>';
 }
