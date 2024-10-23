@@ -143,7 +143,7 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
                                             <img class="block w-full h-full" src="assets/images/brands/remitta.png" alt="Image" />
                                         </button>
                                     </div>
-
+                                    <div class="mt-2" id="deptList"></div>
                                 </form>
                                 </p>
                             </div>
@@ -189,6 +189,32 @@ $mySubscriptions = $Subscription->showSubscriptionDetails($company_id );
         var price = selectedPrice.data('price');
         $('#subscription_id').val(subscription_id) ;
         $('#price').val(price);
+
+            $.ajax({
+                type: 'POST',
+                url: 'sub_dept.php',
+                data: {lot_id: subscription_id},
+                dataType: 'json', // Expect a JSON response
+                success: function (response) {
+                    if (response.success) {
+                        // Clear the previous result
+                        $('#deptList').empty();
+                        $('#deptList').append('<p><strong>This subscription cover the following department </strong><p>')
+                        // Iterate and display the department list
+                        $.each(response.data, function (index, dept) {
+                            $('#deptList').append('<p>' + dept.dept_name + '</p>');
+                        });
+                    } else {
+                        // Handle error (e.g., no departments found)
+                        $('#deptList').html('<p></p>');
+                    }
+                },
+                error: function () {
+                    // Handle the error case
+                    $('#deptList').html('<p>An error occurred while fetching departments.</p>');
+                }
+            });
+
         })
 
         $('#payflutter').click(function() {

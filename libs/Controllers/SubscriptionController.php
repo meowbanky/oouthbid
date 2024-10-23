@@ -37,6 +37,17 @@ class SubscriptionController {
     public function getAllSubscription($company_id){
         return $this->database->getAvailableSubscriptions($company_id) ;
     }
+    public function getAllDeptFromSub($lot_id)
+    {
+        $dept_lots = $this->database->getDeptFromLot($lot_id);
+        $dept = [];
+        if ($dept_lots) {
+            foreach ($dept_lots as $dept_lot) {
+                $dept[] = ['dept_name' => $dept_lot['dept_name']];  // Store each department as an array
+            }
+        }
+        return $dept; // Return an array, not JSON
+    }
 
     public function showCompanyNameById($company_id){
          $company_name = $this->database->getCompanyNameById($company_id);

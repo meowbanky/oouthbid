@@ -335,6 +335,11 @@ public function insertCookies($user_id, $token, $expires_at){
         return $result;
     }
 
+    public function getDeptFromLot($lot_id) {
+        $sql = "SELECT dept.dept_name, dept.lot_id FROM dept WHERE lot_id = :lot_id";
+        $result = $this->App->selectAll($sql,[':lot_id' => $lot_id]);
+        return $result;
+    }
     public function getAvailableSubscriptions($company_id) {
         $sql = "SELECT lot_table.lot_id, lot_table.lot_name,lot_table.price FROM
 	            lot_table WHERE lot_table.lot_id NOT IN (SELECT subscription.lot_id
